@@ -1,5 +1,13 @@
+import asyncio
 import random as r
 from funcs import *
+
+async def userInputAsync():
+    userInput = await asyncio.get_event_loop().run_in_executor(None, input, 'input')
+    print(userInput)
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(userInputAsync())
 
 p = Character()
 es = EnemeyFactory(20)
@@ -16,18 +24,19 @@ while(True):
     # engage
     while(True):
         c = input('What would you do? a. attack, e. Escape\n')
-        if(c == 'a'):
-            currentEnemey.TakeDamage(p.attack)
-            print('You attack the enemy! Enemy Hp = %d' % (currentEnemey.HP()))
-            if(currentEnemey.IsDefeated()):
-                print('You defeat the enemy! Your Hp = %d' %(p.HP()))
-                p.GainExp(currentEnemey)
-                es.EnemeyDefeat()
+        match(c):
+            case 'a':
+                currentEnemey.TakeDamage(p.attack)
+                print('You attack the enemy! Enemy Hp = %d' % (currentEnemey.HP()))
+                if(currentEnemey.IsDefeated()):
+                    print('You defeat the enemy! Your Hp = %d' %(p.HP()))
+                    p.GainExp(currentEnemey)
+                    es.EnemeyDefeat()
+                    break
+                p.TakeDamage(currentEnemey.attack)
+                print('The enemy attack you! Your Hp = %d' %(p.HP()))
+                if(p.IsDefeated()):
+                    print('You are defeated!')
+                    break
+            case _:
                 break
-            p.TakeDamage(currentEnemey.attack)
-            print('The enemy attack you! Your Hp = %d' %(p.HP()))
-            if(p.IsDefeated()):
-                print('You are defeated!')
-                break
-        else:
-            break
