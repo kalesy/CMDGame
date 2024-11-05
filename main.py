@@ -2,13 +2,6 @@ import asyncio
 import random as r
 from funcs import *
 
-async def userInputAsync():
-    userInput = await asyncio.get_event_loop().run_in_executor(None, input, 'input')
-    print(userInput)
-
-loop = asyncio.get_event_loop()
-loop.run_until_complete(userInputAsync())
-
 p = Character()
 es = EnemeyFactory(20)
 while(True):

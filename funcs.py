@@ -1,22 +1,39 @@
 import random as r
+import json, os
 class unit:
-    def __init__(self, level, hp, attack, block):
+    def __init__(self, level = 1, hp = 100, attack = 5, defence = 5, equipments = [], skills = []):
+        self.equipments = equipments
+        self.skills = skills
         self.level = level
         self.hp = self.maxhp = hp
         self.damageTaken = 0
         self.attack = attack
-        self.block = block
+        self.defence = defence
     def HP(self):
         return self.hp
     def IsDefeated(self):
         return self.hp < 0
+
+    def buffSum(self):
+        for s in self.skills:
+            eval(s.formula)
+
+
     def TakeDamage(self, damage):
-        self.hp -= damage - self.block 
+        if(damage < self.defence):
+            self.hp -= 1
+        else:
+            self.hp -= damage - self.defence
 
 class Character(unit): 
     def __init__(self):
-        unit.__init__(self, 1, 100, 5, 0)
-        print('Initialization complete, You are a hero of %d Hp and %d Attack'%(self.hp, self.attack))
+        if(os.path.exists("save.json")):
+            f = open("save.json", 'r')
+            save = json.load(f)
+            unit.__init__(self, save['level'], save['hp'], save['attack'], save['defence'], save['equipments'], save['skills'])
+        else:
+            unit.__init__(self)
+        print(f'Initialization complete.\n==================================\nYou are a hero of {self.hp} Hp and {self.attack} Attack\n==================================')
         self.exp = 0
     def GainExp(self, unit):
         i = unit.maxhp / self.maxhp * 100 
