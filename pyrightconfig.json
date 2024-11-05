@@ -1,0 +1,13 @@
+{
+  "pythonVersion":"3.10",
+  "pythonPlatform":"Windows",
+  "reportMissingImports":"warning",
+  "reportUnknownParameterType":"warning",
+  "reportUnusedVariable":"warning",
+  "reportUnknownVariableType":"warning",
+  "executionEnvironments":[
+    {
+      "root":"."
+    }
+  ]
+}

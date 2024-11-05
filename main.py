@@ -1,4 +1,3 @@
-import asyncio
 import random as r
 from funcs import *
 

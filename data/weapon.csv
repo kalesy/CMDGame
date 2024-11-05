@@ -1,0 +1,2 @@
+ID, name, description, duration, sharpness, ability_required
+-1, "weaponName", "weapon", 0, 0, {}
