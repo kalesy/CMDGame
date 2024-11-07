@@ -1,5 +1,6 @@
 import random as r
 import json, os
+from const import AttackColor, Green, Blue, HPColor, Red, End
 class Unit:
     def __init__(self, level = 1, hp = 100, attack = 5, defence = 5, equipments = [], skills = []):
         self.equipments = equipments
@@ -7,12 +8,14 @@ class Unit:
         self.level = level
         self.maxhp:int
         self.hp = self.maxhp = hp
-        self.damageTaken = 0
         self.attack = attack
         self.defence = defence
 
-    def HP(self):
-        return self.hp
+    def showHP(self):
+        if(self.hp > 0):
+            return f"HP {self.hp}/{self.maxhp}"
+        else:
+            return f"{r.choice(['死了', '臭了', '凉了', '埋了'])}"
 
     def IsDefeated(self) -> bool:
         return self.hp < 0
@@ -23,11 +26,14 @@ class Unit:
             eval(s.formula)
 
 
-    def TakeDamage(self, damage):
-        if(damage < self.defence):
+    def TakeDamage(self, _damage:int) -> str:
+        if(_damage <= self.defence):
             self.hp -= 1
+            return r.choice(['没吃饭啊!', '用力!', '啊你打了?'])
         else:
-            self.hp -= damage - self.defence
+            damage = _damage - self.defence
+            self.hp -= damage
+            return str(damage) + '!'
 
 class Character(Unit): 
 
@@ -38,13 +44,13 @@ class Character(Unit):
             super().__init__(save['level'], save['hp'], save['attack'], save['defence'], save['equipments'], save['skills'])
         else:
             super().__init__()
-        print(f'Initialization complete.\n==================================\nYou are a hero of {self.hp} Hp and {self.attack} Attack\n==================================')
+        print(f'肠胃通畅.\n==================================\n你现在{Green}HP {self.hp}{End}, {Blue}攻击 {self.attack}{End}\n==================================')
         self.exp = 0
 
     def GainExp(self, unit:Unit):
         i = unit.maxhp / self.maxhp * 100 
         self.exp += i
-        print('You gain %d exp of total %d requiring %d' % (i, self.exp, self.__levelRequire()))
+        print('获得%d经验, 当前%d, 还需要%d' % (i, self.exp, self.__levelRequire() - self.exp))
         if(self.exp > self.__levelRequire()):
             self.__levelUp()
 
@@ -53,7 +59,7 @@ class Character(Unit):
         self.hp = self.maxhp + self.__levelUpRandom(1, 5)
         self.maxhp = self.hp
         self.attack = self.attack + self.__levelUpRandom(1, 3)
-        print('Congratulations! Level up to %d of %d hp and %d attack'%(self.level, self.hp, self.attack))
+        print(f'升级辣! 等级{self.level}, {HPColor}HP {self.hp}{End}, {AttackColor}攻击 {self.attack}{End}')
 
     def __levelUpRandom(self, min:int, max:int) -> int:
         return r.randint(min, max)
@@ -63,7 +69,7 @@ class Character(Unit):
 
 class EnemeyFactory:
     def __init__(self, EnemyCount:int):
-        self.array = [Unit(r.randint(1,5),r.randint(20,50), r.randint(2,7), 0) for x in range(0, EnemyCount)]
+        self.array = [Unit(r.randint(1,5),r.randint(20,50), r.randint(2,7), 0) for _ in range(0, EnemyCount)]
         self.currentEnemyIndex = -1
     def GetEnemy(self):
         l = len(self.array)
