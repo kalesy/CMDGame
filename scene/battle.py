@@ -1,8 +1,12 @@
 from funcs import Character, EnemeyFactory
 from const import *
-class Battle:
+from scene.scene import Scene
+class Battle(Scene):
     def __init__(self) -> None:
+        super().__init__()
         self.battling = True
+        self.p : Character
+        self.es : EnemeyFactory
 
     def set(self, p:Character, es:EnemeyFactory):
         self.p = p

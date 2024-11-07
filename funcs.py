@@ -1,5 +1,7 @@
+from collections.abc import Sequence
 import random as r
 import json, os
+from typing import Optional
 from const import AttackColor, Green, Blue, HPColor, Red, End
 class Unit:
     def __init__(self, level = 1, hp = 100, attack = 5, defence = 5, equipments = [], skills = []):
@@ -71,7 +73,7 @@ class EnemeyFactory:
     def __init__(self, EnemyCount:int):
         self.array = [Unit(r.randint(1,5),r.randint(20,50), r.randint(2,7), 0) for _ in range(0, EnemyCount)]
         self.currentEnemyIndex = -1
-    def GetEnemy(self):
+    def GetEnemy(self) -> Unit|None:
         l = len(self.array)
         if(l < 1):
             return None
