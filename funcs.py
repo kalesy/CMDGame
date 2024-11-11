@@ -13,7 +13,7 @@ class Unit:
 
     def showHP(self):
         if(self.hp > 0):
-            return f"HP {self.hp}/{self.maxhp}"
+            return f"体力 {self.hp}/{self.maxhp}"
         else:
             return f"{r.choice(['死了', '臭了', '凉了', '埋了'])}"
 
@@ -44,7 +44,7 @@ class Character(Unit):
             super().__init__(save['level'], save['hp'], save['attack'], save['defence'], save['equipments'], save['skills'])
         else:
             super().__init__()
-        print(f'肠胃通畅.\n==================================\n你现在{Green}HP {self.hp}{End}, {Blue}攻击 {self.attack}{End}\n==================================')
+        print(f'肠胃通畅.\n==================================\n你现在{Green}体力 {self.hp}{End}, {Blue}攻击 {self.attack}{End}\n==================================')
         self.exp = 0
 
     def GainExp(self, unit:Unit):
@@ -59,7 +59,7 @@ class Character(Unit):
         self.hp = self.maxhp + self.__levelUpRandom(1, 5)
         self.maxhp = self.hp
         self.attack = self.attack + self.__levelUpRandom(1, 3)
-        print(f'升级辣! 等级{self.level}, {HPColor}HP {self.hp}{End}, {AttackColor}攻击 {self.attack}{End}')
+        print(f'升级辣! 等级{self.level}, {HPColor}体力 {self.hp}{End}, {AttackColor}攻击 {self.attack}{End}')
 
     def __levelUpRandom(self, min:int, max:int) -> int:
         return r.randint(min, max)

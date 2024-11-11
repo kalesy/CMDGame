@@ -14,6 +14,7 @@ def main():
     transactionScene = transaction.Transaction([])
 
     while(running):
+        pass
 
 
 if __name__ == '__main__':
