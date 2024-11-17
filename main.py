@@ -8,13 +8,12 @@ def main():
     p = Character()
 
     running = True
-    currentScene = None
     prepareScene = prepare.Prepare()
     battleScene = battle.Battle()
-    transactionScene = transaction.Transaction([])
+    transactionScene = transaction.Transaction({"prepare":prepareScene, "battleScene":battleScene})
 
     while(running):
-        pass
+        transactionScene.run()
 
 
 if __name__ == '__main__':
